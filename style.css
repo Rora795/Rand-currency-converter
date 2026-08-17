@@ -1,0 +1,390 @@
+/*
+  ZAR Currency Converter Pro
+  Copyright (c) 2026 Rotshidzwa Avheani
+  Licensed under MIT License
+  */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #344584 0%, #54a847ae 50%, #80745c 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background: rgb(223, 207, 127);
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(169, 104, 104, 0.3);
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flag-banner {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+}
+
+h1 {
+    text-align: center;
+    color: #1e3c2c;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+/* Live Status */
+.live-status {
+    background: #f0f0f0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.refresh-btn {
+    background: #1e3c2c;
+    color: rgb(113, 122, 223);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: #f7b32b;
+    transform: rotate(180deg);
+}
+
+/* Converter Box */
+.converter-box {
+    background: #e0a6a6;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: #f7b32b;
+    box-shadow: 0 0 0 3px rgba(247, 179, 43, 0.1);
+}
+
+.swap-btn {
+    display: block;
+    margin: 15px auto;
+    background: #1e3c2c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.swap-btn:hover {
+    background: #f7b32b;
+    transform: scale(1.05);
+}
+
+.result-box {
+    background: linear-gradient(135deg, #1e3c2c, #2a5a3a);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 25px 0;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.result-box p {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.convert-btn, .pdf-btn, .print-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.convert-btn {
+    background: #f7b32b;
+    color: #1e3c2c;
+}
+
+.convert-btn:hover {
+    background: #e6a100;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.pdf-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.print-btn {
+    background: #17a2b8;
+    color: white;
+}
+
+.print-btn:hover {
+    background: #138496;
+    transform: translateY(-2px);
+}
+
+/* Chart Section */
+.chart-section {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 2px solid #e0e0e0;
+}
+
+.chart-section h3 {
+    color: #1e3c2c;
+    margin-bottom: 15px;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-controls select {
+    flex: 2;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.chart-controls button {
+    flex: 1;
+    padding: 10px;
+    background: #1e3c2c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chart-controls button:hover {
+    background: #f7b32b;
+}
+
+canvas {
+    max-height: 300px;
+    width: 100% !important;
+}
+
+.chart-note {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* History Section */
+.history-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.history-section h3 {
+    color: #1e3c2c;
+    margin-bottom: 15px;
+}
+
+#historyList {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+#historyList li {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+}
+
+#historyList li:last-child {
+    border-bottom: none;
+}
+
+.clear-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    background: #5a6268;
+}
+
+/* Info Section */
+.info {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.info p {
+    margin: 5px 0;
+}
+
+/* Print/PDF Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        padding: 20px;
+        max-width: 100%;
+    }
+    
+    .convert-btn, .pdf-btn, .print-btn, .refresh-btn, .swap-btn, .clear-btn, .chart-controls button {
+        display: none;
+    }
+    
+    .flag-banner {
+        print-color-adjust: exact;
+    }
+    
+    .result-box {
+        print-color-adjust: exact;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .result-box p {
+        font-size: 1.2rem;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .chart-controls {
+        flex-direction: column;
+    }
+}

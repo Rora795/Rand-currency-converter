@@ -1,0 +1,133 @@
+<!--
+  ZAR Currency Converter Pro
+  Copyright (c) 2026 Rotshidzwa Avheani
+  Licensed under MIT License
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rand Currency Converter </title>
+    <link rel="stylesheet" href="style.css">
+    <!-- historical chart with Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Using html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div class="container" id="reportContent">
+        <!-- In this section we are creating the header banner -->
+        <div class="flag-banner">
+            <span>CHING</span>
+            <span>CHING</span>
+            <span>CHING</span>
+        </div>
+        
+        <h1>ZAR Currency Converter Pro</h1>
+        <p class="subtitle">Live Exchange Rates | Historical Charts | South African Rand</p>
+
+        <!-- building a function for the live rate status --> 
+        <div class="live-status" id="liveStatus">
+            <span class="status-dot"></span>
+            <span id="statusText">Fetching live rates...</span>
+            <button class="refresh-btn" id="refreshBtn">Refresh</button>
+        </div>
+
+        <!-- This section focuces on the main converter function -->
+        <!-- It shows twelve different currencies used internationally -->
+        <!-- This section of code showcases input groups for "from currency" and "to currency" -->
+        <!-- A swap button is being created -->
+        <div class="converter-box">
+            <div class="input-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" value="1000" step="100">
+            </div>
+
+            <div class="input-group">
+                <label for="fromCurrency">From:</label>
+                <select id="fromCurrency">
+                    <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
+                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                    <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                    <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                    <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                    <option value="BWP">🇧🇼 BWP - Botswana Pula</option>
+                    <option value="NAD">🇳🇦 NAD - Namibian Dollar</option>
+                    <option value="SZL">🇸🇿 SZL - Swazi Lilangeni</option>
+                </select>
+            </div>
+
+            <button class="swap-btn" id="swapBtn">swap</button>
+
+            <div class="input-group">
+                <label for="toCurrency">To:</label>
+                <select id="toCurrency">
+                    <option value="USD">🇺🇸 USD - US Dollar</option>
+                    <option value="EUR">🇪🇺 EUR - Euro</option>
+                    <option value="GBP">🇬🇧 GBP - British Pound</option>
+                    <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                    <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                    <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                    <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                    <option value="ZAR" selected>🇿🇦 ZAR - South African Rand</option>
+                    <option value="BWP">🇧🇼 BWP - Botswana Pula</option>
+                    <option value="NAD">🇳🇦 NAD - Namibian Dollar</option>
+                    <option value="SZL">🇸🇿 SZL - Swazi Lilangeni</option>
+                </select>
+            </div>
+
+            <div class="result-box" id="resultBox">
+                <p id="result">R 20,00 = $ 0.00</p>
+            </div>
+
+            <div class="button-group">
+                <button class="convert-btn" id="convertBtn">Convert Now</button>
+                <button class="pdf-btn" id="pdfBtn">Save as PDF</button>
+                <button class="print-btn" id="printBtn">Print</button>
+            </div>
+        </div>
+
+        <!-- creating the historicalChart -->
+        <div class="chart-section">
+            <h3> ZAR Historical Performance (30 Days)</h3>
+            <div class="chart-controls">
+                <select id="chartCurrency">
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="AUD">AUD - Australian Dollar</option>
+                </select>
+                <button id="updateChartBtn">Update Chart</button>
+            </div>
+            <canvas id="historicalChart" width="400" height="200"></canvas>
+            <p class="chart-note">This data shows how many ZAR equals 1 unit of foreign currency</p>
+        </div>
+
+        <!-- Writing code to allow user to check conversion history -->
+        <!-- Code will allow user to clear history -->
+        <div class="history-section">
+            <h3>Recent Conversions</h3>
+            <ul id="historyList">
+                <li>No conversions yet. Start converting!</li>
+            </ul>
+            <button id="clearHistoryBtn" class="clear-btn">Clear History</button>
+        </div>
+
+        <!-- inserting the footer information -->
+        <div class="info">
+            <p> Live rates from ExchangeRate-API (updated daily)</p>
+            <p>ZAR is the official currency used in South Africa</p>
+            <p>Ching"The future of the Rand is bright"</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
